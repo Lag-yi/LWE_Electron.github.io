@@ -3,91 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LWE_Electron · 模组官网</title>
+    <title>弑神之日 · LWE_Electron</title>
     <link rel="stylesheet" href="style.css">
-    <!-- 简单的图标库 (Font Awesome) 让页面更好看 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">LWE_Electron</a>
+            <a href="index.html" class="logo">⚡ LWE_Electron</a>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">首页</a></li>
-                <li><a href="#mods">模组</a></li>
+                <li><a href="#mod">弑神之日</a></li>
                 <li><a href="forum.html">讨论区</a></li>
-                <li><a href="#download">下载</a></li>
                 <li><a href="https://github.com/Lag-yi" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- 首屏大标题 (Hero Section) -->
+    <!-- 英雄区（强调“弑神”） -->
     <header class="hero">
         <div class="container">
-            <h1 class="glitch" data-text="LWE_Electron">LWE_Electron</h1>
-            <p class="subtitle">「 海魂之力的锻造者 · 探索模组的无限可能 」</p>
+            <h1 class="glitch" data-text="弑神之日">弑神之日</h1>
+            <p class="subtitle">「 诸神的黄昏，由你亲手拉开 」</p>
             <div class="hero-buttons">
-                <a href="#mods" class="btn btn-primary"><i class="fas fa-cube"></i> 探索模组</a>
-                <a href="#download" class="btn btn-secondary"><i class="fas fa-download"></i> 立即下载</a>
+                <a href="#mod" class="btn btn-primary"><i class="fas fa-skull"></i> 了解模组</a>
+                <a href="forum.html" class="btn btn-secondary"><i class="fas fa-comments"></i> 前往讨论区</a>
             </div>
         </div>
     </header>
 
-    <!-- 特色介绍 (你之前做的海魂锭) -->
-    <section id="mods" class="featured">
+    <!-- 模组卡片（仅此一张，核心展示） -->
+    <section id="mod" class="featured">
         <div class="container">
-            <h2 class="section-title">弑 神 之 日【开发中】</h2>
+            <h2 class="section-title">⚔️ 核心模组 · 弑神之日</h2>
             <div class="mod-card">
                 <div class="mod-icon">
-                    <!-- 这里可以放你模组的锭的图片，假设叫 seasoul_ingot.png -->
-                    <img src="https://via.placeholder.com/128x128/2a2a40/ffffff?text=⚡" alt="海魂锭">
+                    <!-- 占位图，你可以替换为自己的纹理 -->
+                    <img src="https://via.placeholder.com/128x128/2a2a40/ffffff?text=☠️" alt="弑神之日图标">
                 </div>
                 <div class="mod-info">
-                    <h3></h3>
-                    <p></p>
+                    <h3>弑神之日 (Day of Godslayer)</h3>
+                    <p>传说中，当海魂之力与湮灭能量交汇，便会诞生足以弑杀神明的武器。这个模组为你带来全新的“弑神”系列装备——从紫水晶剑到终末之刃，每一件都蕴含斩断命运的力量。</p>
                     <div class="mod-tags">
-                        <span class="tag"><i class="fas fa-tag"></i></span>
-                        <span class="tag"><i class="fas fa-fire"></i></span>
-                        <span class="tag"><i class="fas fa-star"></i></span>
+                        <span class="tag"><i class="fas fa-tag"></i> 装备</span>
+                        <span class="tag"><i class="fas fa-dragon"></i>  Boss</span>
+                        <span class="tag"><i class="fas fa-crown"></i> 神话</span>
                     </div>
-                    <a href="#" class="btn btn-small">查看合成配方 →</a>
+                    <p class="mod-features">
+                        <i class="fas fa-check-circle" style="color: #8b5cf6;"></i> 6+ 全新武器与工具<br>
+                        <i class="fas fa-check-circle" style="color: #8b5cf6;"></i> 独特的“弑神”附魔效果<br>
+                        <i class="fas fa-check-circle" style="color: #8b5cf6;"></i> 挑战性的合成配方<br>
+                        <i class="fas fa-check-circle" style="color: #8b5cf6;"></i> 完全适配 Minecraft 1.21.1 Fabric
+                    </p>
+                    <!-- 没有下载按钮，只有引导到讨论区 -->
+                    <a href="forum.html" class="btn btn-primary"><i class="fas fa-comments"></i> 在讨论区反馈/讨论</a>
                 </div>
             </div>
-            <!-- 可以继续添加更多模组卡片 -->
-        </div>
-    </section>
-
-    <!-- 下载区块 -->
-    <section id="download" class="download-section">
-        <div class="container">
-            <h2 class="section-title">📦 下载中心</h2>
-            <p>最新版本：<strong>v1.0.0</strong> (适配 Minecraft 1.21.1 Fabric)</p>
-            <div class="download-cards">
-                <div class="download-card">
-                    <i class="fas fa-crown fa-3x"></i>
-                    <h4>正式版</h4>
-                    <p>稳定可靠，推荐大多数玩家</p>
-                    <a href="#" class="btn btn-primary btn-block">下载 .jar</a>
-                    <small>MD5: a1b2c3...</small>
-                </div>
-                <div class="download-card">
-                    <i class="fas fa-flask fa-3x"></i>
-                    <h4>测试版</h4>
-                    <p>抢先体验新内容</p>
-                    <a href="#" class="btn btn-secondary btn-block">下载 .jar</a>
-                </div>
-            </div>
-            <p class="note"><i class="fas fa-info-circle"></i> 需要 Fabric API 作为前置。</p>
         </div>
     </section>
 
     <!-- 页脚 -->
     <footer>
         <div class="container">
-            <p>© 2026 LWE_Electron. 用 ⚡ 和 ☕ 铸造。</p>
-            <p>本站基于 GitHub Pages 构建 | <a href="https://github.com/Lag-yi/LWE_Electron.github.io">源代码</a></p>
+            <p>© 2026 LWE_Electron · 弑神之日 模组官网</p>
+            <p>用 ⚡ 和 铁锭（？ 铸造 | <a href="https://github.com/Lag-yi/LWE_Electron.github.io">本站源代码</a></p>
         </div>
     </footer>
 </body>
