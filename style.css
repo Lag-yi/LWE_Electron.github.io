@@ -278,3 +278,53 @@ footer a {
     .nav-links { gap: 1rem; }
     .glitch { font-size: 3rem; }
 }
+/* 制作人员区域 */
+.credits-section {
+    padding: 5rem 0;
+    background: rgba(10, 10, 20, 0.8);
+}
+
+.credits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.credit-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glow);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.credit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+}
+
+.credit-card h4 {
+    margin: 1rem 0 0.3rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.credit-card p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.credit-desc {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+.credits-note {
+    text-align: center;
+    color: var(--text-dim);
+    margin-top: 2rem;
+    font-style: italic;
+}
