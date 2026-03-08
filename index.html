@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LWE_Electron · 我们在学的模组项目</title>
+    <title>LWE_Electron</title>
     <link rel="stylesheet" href="style.css">
     <!-- Font Awesome 图标库 (免费) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -92,9 +92,7 @@
             <h2 class="section-title">🧩 代码片段</h2>
             <div class="code-card">
                 <p class="code-title">第一个较庞大的物品：战神徽章 触发代码</p>
-                <pre><code>public class ModEvents {
-
-    public static void register() {
+                <pre><code>public static void register() {
         ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
             // 只在服务端且是玩家
             if (entity.getWorld().isClient || !(entity instanceof PlayerEntity player)) {
@@ -115,20 +113,20 @@
 
                 int duration = 800; // 40秒
                 // 添加所有增益效果
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, duration, 0));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 1200, 0)); // 1分钟隐身
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, duration, 1));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 1200, 1)); // 1分钟隐身
 
                 // 播放音效
                 player.getWorld().playSound(null, player.getBlockPos(),
@@ -145,8 +143,7 @@
             }
             return true;
         });
-    }
-}</code></pre>
+    }</code></pre>
                 <p class="code-note">欢迎指错！</p>
             </div>
         </div>
