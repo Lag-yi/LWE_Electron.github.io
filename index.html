@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style.css">
     <!-- Font Awesome 图标库 (免费) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 平滑滚动全局设置（备选方案，但为了偏移控制我们使用 JS） */
+        html {
+            scroll-behavior: smooth; /* 备用，但 JS 会覆盖此行为以处理偏移 */
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -15,6 +21,8 @@
             <ul class="nav-links">
                 <li><a href="index.html" class="active">首页</a></li>
                 <li><a href="#mod">我们在做什么</a></li>
+                <li><a href="#updates">最新动态</a></li>
+                <li><a href="#code">代码片段</a></li>
                 <li><a href="#credits">我们是谁</a></li>
             </ul>
         </div>
@@ -36,7 +44,6 @@
             <div class="mod-card">
                 <div class="mod-info">
                     <h3>弑神之日 (Day of Godslayer)</h3>
-                    <p>名字听起来很厉害，但其实我们还在一点点摸索。</p>
                     <p style="margin-top: 1.5rem;"><strong>已经学会的：</strong></p>
                     <ul>
                         <li>在 Minecraft 1.21.1 里加了属于自己的物品</li>
@@ -58,6 +65,93 @@
         </div>
     </section>
 
+    <!-- 最新动态 -->
+    <section id="updates" class="updates-section">
+        <div class="container">
+            <h2 class="section-title">📝 最新动态</h2>
+            <div class="updates-grid">
+                <div class="update-card">
+                    <div class="update-date">2026.03.08</div>
+                    <p class="update-desc">更新注册物品的方式，更加方便维护（但却依旧臃肿）</p>
+                </div>
+                <div class="update-card">
+                    <div class="update-date">2026.03.01</div>
+                    <p class="update-desc">战神徽章效果完成：死亡触发13种增益+隐身。</p>
+                </div>
+                <div class="update-card">
+                    <div class="update-date">2026.02.20</div>
+                    <p class="update-desc">成功搭建 Fabric 1.21.1 开发环境，注册了几个菜单物品。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 代码片段分享 -->
+    <section id="code" class="code-section">
+        <div class="container">
+            <h2 class="section-title">🧩 代码片段</h2>
+            <div class="code-card">
+                <p class="code-title">第一个较庞大的物品：战神徽章 触发代码</p>
+                <pre><code>public class ModEvents {
+
+    public static void register() {
+        ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
+            // 只在服务端且是玩家
+            if (entity.getWorld().isClient || !(entity instanceof PlayerEntity player)) {
+                return true;
+            }
+
+            // 检查主手或副手是否有战神徽章
+            ItemStack mainHand = player.getMainHandStack();
+            ItemStack offHand = player.getOffHandStack();
+            boolean hasEmblem = mainHand.isOf(ModItems.WARGOD_EMBLEM) ||
+                                offHand.isOf(ModItems.WARGOD_EMBLEM);
+
+            if (hasEmblem) {
+                // 恢复生命值
+                player.setHealth(1.0F);
+                // 清除所有负面效果
+                player.clearStatusEffects();
+
+                int duration = 800; // 40秒
+                // 添加所有增益效果
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, duration, 0));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 1200, 0)); // 1分钟隐身
+
+                // 播放音效
+                player.getWorld().playSound(null, player.getBlockPos(),
+                        SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
+                // 消耗徽章
+                if (mainHand.isOf(ModItems.WARGOD_EMBLEM)) {
+                    mainHand.decrement(1);
+                } else {
+                    offHand.decrement(1);
+                }
+
+                return false; // 阻止死亡
+            }
+            return true;
+        });
+    }
+}</code></pre>
+                <p class="code-note">欢迎指错！</p>
+            </div>
+        </div>
+    </section>
+
     <section id="credits" class="credits-section">
         <div class="container">
             <h2 class="section-title">👤 关于我们</h2>
@@ -67,7 +161,7 @@
                     <h4>Starry_Electron</h4>
                     <p class="credit-role">写代码的那个➕少量策划</p>
                     <span class="credit-desc">七年级，负责 Java、Git、被 bug 折磨、喜欢做神学类物品。</span>
-		    <span class="credit-desc"><p>对了，这个网站就是她做的</p></span>
+                    <span class="credit-desc"><p>对了，这个网站就是她做的</p></span>
                 </div>
                 <div class="credit-card">
                     <i class="fas fa-paint-brush fa-2x" style="color: #5a67d8;"></i>
@@ -89,8 +183,38 @@
     <footer>
         <div class="container">
             <p>© 2026 LWE_Electron · 用周末和假期做的项目</p>
-            <p><a href="https://github.com/Lag-yi/LWE_Electron.github.io">网站源代码</a></p>
+            <p>
+                <a href="https://github.com/Lag-yi/LWE_Electron.github.io" target="_blank">
+                    <i class="fab fa-github"></i> 网站源代码
+                </a>
+                &nbsp;|&nbsp;
+                <a href="https://github.com/Lag-yi" target="_blank">
+                    <i class="fab fa-github"></i> 我们的 GitHub
+                </a>
+            </p>
         </div>
     </footer>
+
+    <script>
+        // 平滑滚动并考虑固定导航栏的高度
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // 阻止默认跳转
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight; // 获取导航栏高度
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                    const offsetPosition = elementPosition - navbarHeight - 10; // 额外减10像素留点间距
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
