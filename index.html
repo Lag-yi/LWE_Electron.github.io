@@ -193,6 +193,30 @@
                 </a>
             </p>
         </div>
+        <!-- 新增折叠声明区域 -->
+        <div class="legal-footer">
+            <button class="legal-toggle" onclick="toggleLegalNotice()">
+                <i class="fas fa-balance-scale"></i> 网站声明
+            </button>
+            <div id="legalNotice" class="legal-notice" style="display: none;">
+                <p><strong>© 版权</strong>：原创内容（文字、代码）版权归 LWE_Electron 所有。Minecraft 相关素材版权归 Mojang Studios。</p>
+                <p><strong>免责</strong>：本网站为个人学习项目，信息仅供参考。如有侵权，请联系我们处理。</p>
+                <p><a href="legal.html" target="_blank">查看完整声明 <i class="fas fa-external-link-alt"></i></a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+function toggleLegalNotice() {
+    var notice = document.getElementById('legalNotice');
+    if (notice.style.display === 'none' || notice.style.display === '') {
+        notice.style.display = 'block';
+    } else {
+        notice.style.display = 'none';
+    }
+}
+</script>
     </footer>
 
     <script>
