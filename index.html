@@ -8,13 +8,16 @@
     <!-- Font Awesome 图标库 (免费) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 平滑滚动全局设置（备选方案，但为了偏移控制我们使用 JS） */
+        /* 平滑滚动全局设置 */
         html {
-            scroll-behavior: smooth; /* 备用，但 JS 会覆盖此行为以处理偏移 */
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
+    <div class="background-fixed"></div>
+    <!-- 新增：半透明遮罩层 -->
+    <div class="overlay"></div>
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">⚡ LWE_Electron</a>
@@ -44,6 +47,7 @@
             <div class="mod-card">
                 <div class="mod-info">
                     <h3>弑神之日 (Day of Godslayer)</h3>
+                    <p>名字听起来很厉害，但其实我们还在一点点摸索。</p>
                     <p style="margin-top: 1.5rem;"><strong>已经学会的：</strong></p>
                     <ul>
                         <li>在 Minecraft 1.21.1 里加了属于自己的物品</li>
@@ -72,7 +76,7 @@
             <div class="updates-grid">
                 <div class="update-card">
                     <div class="update-date">2026.03.08</div>
-                    <p class="update-desc">更新注册物品的方式，更加方便维护（但却依旧臃肿）</p>
+                    <p class="update-desc">学会了自定义盔甲材料，正在画海魂盔甲的纹理！</p>
                 </div>
                 <div class="update-card">
                     <div class="update-date">2026.03.01</div>
@@ -80,7 +84,7 @@
                 </div>
                 <div class="update-card">
                     <div class="update-date">2026.02.20</div>
-                    <p class="update-desc">成功搭建 Fabric 1.21.1 开发环境，注册了几个菜单物品。</p>
+                    <p class="update-desc">成功搭建 Fabric 1.21.1 开发环境，注册了第一个物品。</p>
                 </div>
             </div>
         </div>
@@ -91,7 +95,7 @@
         <div class="container">
             <h2 class="section-title">🧩 代码片段</h2>
             <div class="code-card">
-                <p class="code-title">第一个较庞大的物品：战神徽章 触发代码</p>
+                <p class="code-title">第一个较大型物品：战神徽章 触发代码</p>
                 <pre><code>public static void register() {
         ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
             // 只在服务端且是玩家
@@ -144,7 +148,7 @@
             return true;
         });
     }</code></pre>
-                <p class="code-note">欢迎指错！</p>
+                <p class="code-note">欢迎指错提建议！</p>
             </div>
         </div>
     </section>
@@ -189,45 +193,32 @@
                     <i class="fab fa-github"></i> 我们的 GitHub
                 </a>
             </p>
-        </div>
-        <!-- 新增折叠声明区域 -->
-        <div class="legal-footer">
-            <button class="legal-toggle" onclick="toggleLegalNotice()">
-                <i class="fas fa-balance-scale"></i> 网站声明
-            </button>
-            <div id="legalNotice" class="legal-notice" style="display: none;">
-                <p><strong>© 版权</strong>：原创内容（文字、代码）版权归 LWE_Electron 所有。Minecraft 相关素材版权归 Mojang Studios。</p>
-                <p><strong>免责</strong>：本网站为个人学习项目，信息仅供参考。如有侵权，请联系我们处理。</p>
-                <p><a href="legal.html" target="_blank">查看完整声明 <i class="fas fa-external-link-alt"></i></a></p>
+            <!-- 折叠声明区域 -->
+            <div class="legal-footer">
+                <button class="legal-toggle" onclick="toggleLegalNotice()">
+                    <i class="fas fa-balance-scale"></i> 网站声明
+                </button>
+                <div id="legalNotice" class="legal-notice" style="display: none;">
+                    <p><strong>© 版权</strong>：原创内容（文字、代码）版权归 LWE_Electron 所有。Minecraft 相关素材版权归 Mojang Studios。</p>
+                    <p><strong>免责</strong>：本网站为个人学习项目，信息仅供参考。如有侵权，请联系我们处理。</p>
+                    <p><a href="legal.html" target="_blank">查看完整声明 <i class="fas fa-external-link-alt"></i></a></p>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
-
-<script>
-function toggleLegalNotice() {
-    var notice = document.getElementById('legalNotice');
-    if (notice.style.display === 'none' || notice.style.display === '') {
-        notice.style.display = 'block';
-    } else {
-        notice.style.display = 'none';
-    }
-}
-</script>
     </footer>
 
     <script>
         // 平滑滚动并考虑固定导航栏的高度
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault(); // 阻止默认跳转
+                e.preventDefault();
                 const targetId = this.getAttribute('href');
                 if (targetId === '#') return;
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    const navbarHeight = document.querySelector('.navbar').offsetHeight; // 获取导航栏高度
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
                     const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
-                    const offsetPosition = elementPosition - navbarHeight - 10; // 额外减10像素留点间距
+                    const offsetPosition = elementPosition - navbarHeight - 10;
 
                     window.scrollTo({
                         top: offsetPosition,
@@ -236,6 +227,15 @@ function toggleLegalNotice() {
                 }
             });
         });
+
+        function toggleLegalNotice() {
+            var notice = document.getElementById('legalNotice');
+            if (notice.style.display === 'none' || notice.style.display === '') {
+                notice.style.display = 'block';
+            } else {
+                notice.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
