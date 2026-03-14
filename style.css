@@ -112,16 +112,6 @@ button:active, a:active, .btn:active, .nav-links a:active, .legal-toggle:active,
     color: var(--accent);
 }
 
-/* 手机菜单按钮（默认隐藏） */
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
 /* 主题切换按钮 */
 .theme-toggle {
     position: fixed;
@@ -282,11 +272,12 @@ button:active, a:active, .btn:active, .nav-links a:active, .legal-toggle:active,
     padding: 1.5rem;
     box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
     border: 1px solid var(--border-color);
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .update-card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 15px 25px -8px rgba(0,0,0,0.4);
 }
 
 .update-date {
@@ -346,7 +337,7 @@ button:active, a:active, .btn:active, .nav-links a:active, .legal-toggle:active,
     margin-top: 1rem;
 }
 
-/* 制作人员区域 */
+/* 制作人员区域 - 添加悬浮动画 */
 .credits-section {
     padding: 3rem 0 4rem;
 }
@@ -367,11 +358,12 @@ button:active, a:active, .btn:active, .nav-links a:active, .legal-toggle:active,
     text-align: center;
     box-shadow: 0 15px 25px -8px rgba(0, 0, 0, 0.4);
     border: 1px solid var(--border-color);
-    transition: transform 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .credit-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.5);
 }
 
 .credit-card h4 {
@@ -398,6 +390,48 @@ button:active, a:active, .btn:active, .nav-links a:active, .legal-toggle:active,
     margin-top: 2.5rem;
     font-style: italic;
     font-size: 0.95rem;
+}
+
+/* 浅色主题下标签和代码片段的颜色优化 */
+.light-theme .update-desc {
+    color: #1a1a2a;
+}
+
+.light-theme .code-title {
+    color: #1a1a2a;
+}
+
+.light-theme .code-card code {
+    color: #1e293b;
+    background: #f8fafc;
+}
+
+.light-theme .code-card pre {
+    background: #f1f5f9;
+}
+
+.light-theme .update-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+/* 新增：浅色主题下标签（如 #1.21.1）优化 */
+.light-theme .tag {
+    background: #e9ecef;       /* 浅灰背景 */
+    color: #1a202c;            /* 深色文字 */
+    border-color: #ced4da;
+}
+
+/* 新增：浅色主题下动态卡片日期标签优化 */
+.light-theme .update-date {
+    background: #e9ecef;
+    color: #2c3e50;
+    border-color: #ced4da;
+}
+
+/* 浅色主题下卡片悬浮阴影微调 */
+.light-theme .credit-card:hover {
+    box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.2);
 }
 
 /* 页脚 */
@@ -482,10 +516,6 @@ footer i {
         position: relative;
     }
 
-    .mobile-menu-btn {
-        display: block;
-    }
-
     .nav-links {
         display: none;
         flex-direction: column;
@@ -503,7 +533,7 @@ footer i {
 
     .nav-links.show {
         display: flex;
-        z-index: 1000; /* 低于主题按钮的 z-index */
+        z-index: 1000;
     }
 
     .mod-card {
@@ -521,6 +551,6 @@ footer i {
     .theme-toggle {
         top: 10px;
         right: 10px;
-        z-index: 1001; /* 高于导航菜单 */
+        z-index: 1001;
     }
 }

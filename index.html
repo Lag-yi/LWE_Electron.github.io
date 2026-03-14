@@ -23,7 +23,7 @@
 
     <nav class="navbar">
         <div class="container">
-            <!-- 注意：Logo 同时作为首页链接和手机菜单触发按钮 -->
+            <!-- Logo 同时作为首页链接和手机菜单触发按钮 -->
             <a href="index.html" class="logo" id="mobileMenuTrigger">⚡ LWE_Electron</a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="active">首页</a></li>
@@ -242,8 +242,8 @@
 
         if (logo) {
             logo.addEventListener('click', (e) => {
-                if (window.innerWidth <= 700) { // 只在手机尺寸下生效
-                    e.preventDefault(); // 阻止跳转到首页
+                if (window.innerWidth <= 700) {
+                    e.preventDefault();
                     navLinks.classList.toggle('show');
                 }
             });
