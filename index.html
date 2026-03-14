@@ -2,26 +2,31 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LWE_Electron</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="LWE_Electron 的 Minecraft 模组「弑神之日」官方网站，两个初中生的 Fabric 模组学习项目。">
+    <meta name="keywords" content="Minecraft, 模组, Fabric, 弑神之日, 初中生, 学习项目">
+    <meta name="author" content="LWE_Electron">
+    <title>LWE_Electron · 弑神之日</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome 图标库 (免费) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 平滑滚动全局设置 */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
     </style>
+    <link rel="icon" type="image/png" href="/images/icon.png">
 </head>
 <body>
-    <div class="background-fixed"></div>
-    <!-- 新增：半透明遮罩层 -->
-    <div class="overlay"></div>
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色模式">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">⚡ LWE_Electron</a>
-            <ul class="nav-links">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="active">首页</a></li>
                 <li><a href="#mod">我们在做什么</a></li>
                 <li><a href="#updates">最新动态</a></li>
@@ -208,33 +213,68 @@
     </footer>
 
     <script>
-        // 平滑滚动并考虑固定导航栏的高度
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                    const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
-                    const offsetPosition = elementPosition - navbarHeight - 10;
+        // 主题切换
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        
+        // 检查本地存储中的主题偏好
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            if (document.body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // 手机菜单
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // 点击导航链接后自动关闭菜单（手机）
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 700) {
+                    navLinks.classList.remove('show');
                 }
             });
         });
 
+        // 平滑滚动并考虑导航栏高度
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                    const offsetPosition = elementPosition - navbarHeight - 10;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 声明折叠函数（保持原有）
         function toggleLegalNotice() {
             var notice = document.getElementById('legalNotice');
-            if (notice.style.display === 'none' || notice.style.display === '') {
-                notice.style.display = 'block';
-            } else {
-                notice.style.display = 'none';
-            }
+            notice.style.display = notice.style.display === 'none' ? 'block' : 'none';
         }
     </script>
 </body>
