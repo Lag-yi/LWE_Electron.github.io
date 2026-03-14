@@ -8,7 +8,7 @@
     <meta name="author" content="LWE_Electron">
     <title>LWE_Electron · 弑神之日</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome 使用 BootCDN 替换 -->
+    <!-- Font Awesome 使用 BootCDN -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
     <style>
         html { scroll-behavior: smooth; }
@@ -23,10 +23,8 @@
 
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">⚡ LWE_Electron</a>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="菜单">
-                <i class="fas fa-bars"></i>
-            </button>
+            <!-- 注意：Logo 同时作为首页链接和手机菜单触发按钮 -->
+            <a href="index.html" class="logo" id="mobileMenuTrigger">⚡ LWE_Electron</a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="active">首页</a></li>
                 <li><a href="#mod">我们在做什么</a></li>
@@ -238,14 +236,20 @@
             }
         });
 
-        // 手机菜单
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        // 手机菜单触发器：点击 Logo（仅限手机视图）
+        const logo = document.querySelector('.logo');
         const navLinks = document.getElementById('navLinks');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
+        if (logo) {
+            logo.addEventListener('click', (e) => {
+                if (window.innerWidth <= 700) { // 只在手机尺寸下生效
+                    e.preventDefault(); // 阻止跳转到首页
+                    navLinks.classList.toggle('show');
+                }
+            });
+        }
 
+        // 点击导航链接后自动关闭菜单（手机）
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 700) {
