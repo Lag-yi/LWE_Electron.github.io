@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="「神途」模组开发日志 – LWE_Electron">
+    <title>开发日志 · 神途 · LWE_Electron</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 页面淡入动画 */
+        body {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 日志页面专用样式 - 与首页 update-card 保持一致 */
+        .news-header {
+            background: var(--bg-secondary);
+            padding: 3rem 0 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        .news-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .news-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+        }
+        .archive-sidebar {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+        .archive-sidebar h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .archive-list {
+            list-style: none;
+        }
+        .archive-list li {
+            margin-bottom: 0.5rem;
+        }
+        .archive-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 0.3rem 0;
+            transition: color 0.2s;
+        }
+        .archive-list a:hover {
+            color: var(--accent);
+        }
+
+        /* 日志条目样式 = 首页 .update-card 样式 */
+        .log-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .log-entry {
+            background: var(--bg-card);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .log-entry:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.4);
+        }
+        .log-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            background: rgba(50, 50, 60, 0.6);
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+        }
+        .log-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0.5rem 0 1rem;
+            color: var(--text-primary);
+        }
+        .log-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .log-content ul, .log-content p {
+            margin-bottom: 0.8rem;
+        }
+
+        /* 浅色主题下日志条目标签颜色优化 */
+        .light-theme .log-date {
+            background: #e9ecef;
+            color: #2c3e50;
+            border-color: #ced4da;
+        }
+        .light-theme .log-entry {
+            background: #ffffff;
+            border-color: #e2e8f0;
+        }
+
+        /* 返回首页按钮 - 美化 */
+        .back-home {
+            margin-top: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .back-home .btn {
+            display: inline-block;
+            padding: 0.7rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+        }
+        .back-home .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        @media (max-width: 700px) {
+            .news-container {
+                grid-template-columns: 1fr;
+            }
+            .archive-sidebar {
+                position: static;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+    <link rel="icon" type="image/png" href="/images/icon.png">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色模式">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo" id="mobileMenuTrigger">⚡ LWE_Electron</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="index.html#mod">我们在做什么</a></li>
+                <li><a href="news.html" class="active">开发日志</a></li>
+                <li><a href="index.html#code">代码片段</a></li>
+                <li><a href="index.html#credits">我们是谁</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="news-header">
+        <div class="container">
+            <h1>📝 开发日志</h1>
+            <p>记录「神途」模组从零到一的每一步</p>
+        </div>
+    </div>
+
+    <div class="news-container">
+        <aside class="archive-sidebar">
+            <h3><i class="fas fa-archive"></i> 归档</h3>
+            <ul class="archive-list">
+                <li><a href="#" data-year="2026">2026年</a></li>
+                <!-- 2025 年已移除 -->
+            </ul>
+        </aside>
+
+        <main class="log-list" id="logList">
+            <div class="log-entry">
+                <div class="log-date">2026.04.04</div>
+                <div class="log-title">🎉 圣化盐与水晶瓶 · 生日特别更新</div>
+                <div class="log-content">
+                    <p>添加了「圣化盐」和「水晶瓶」及其合成配方。这天是 Starry_Electron 的生日，祝生日快乐！🎂</p>
+                    <p>圣化盐可通过下界石英 + 荧石粉合成，用于后续进阶合成。水晶瓶用于存储圣水（计划中）。</p>
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026.03.08</div>
+                <div class="log-title">⚔️ 盔甲系统入门 · 海魂盔甲纹理绘制中</div>
+                <div class="log-content">
+                    <p>学会了自定义盔甲材料（ArmorMaterial），正在为海魂盔甲绘制纹理。下一步实现全套盔甲的特殊效果（例如水下呼吸+速度）。</p>
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026.03.01</div>
+                <div class="log-title">🛡️ 战神徽章完成 · 死亡触发13种增益</div>
+                <div class="log-content">
+                    <p>战神徽章效果：手持时死亡会阻止死亡，恢复1生命值，清除负面效果，并给予13种正面状态（速度、力量、抗性、隐身等），持续40秒。消耗一枚徽章。</p>
+                    <p>代码已整合进主类，通过事件监听实现。</p>
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026.02.25</div>
+                <div class="log-title">🏗️ 模组基础框架搭建</div>
+                <div class="log-content">
+                    <p>创建 Fabric 1.21.1 项目，注册了第一个自定义物品「海魂锭」，编写了有序合成配方。</p>
+                    <p>搭建了 GitHub 仓库和 GitHub Pages 官网，实现深浅主题切换和手机响应式菜单。</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="back-home">
+        <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> 返回首页</a>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 LWE_Electron · 用周末和假期做的项目</p>
+            <p><a href="https://github.com/Lag-yi/LWE_Electron.github.io" target="_blank"><i class="fab fa-github"></i> 网站源代码</a> | <a href="news.html">开发日志</a> | <a href="legal.html">网站声明</a></p>
+            <div class="legal-footer">
+                <button class="legal-toggle" onclick="toggleLegalNotice()">
+                    <i class="fas fa-balance-scale"></i> 网站声明
+                </button>
+                <div id="legalNotice" class="legal-notice" style="display: none;">
+                    <p><strong>© 版权</strong>：原创内容版权归 LWE_Electron 所有。Minecraft 素材版权归 Mojang Studios。</p>
+                    <p><a href="legal.html" target="_blank">查看完整声明 <i class="fas fa-external-link-alt"></i></a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            if (document.body.classList.contains('light-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // 手机菜单逻辑
+        const logo = document.querySelector('.logo');
+        const navLinks = document.getElementById('navLinks');
+        if (logo) {
+            logo.addEventListener('click', (e) => {
+                if (window.innerWidth <= 700) {
+                    e.preventDefault();
+                    navLinks.classList.toggle('show');
+                }
+            });
+        }
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 700) navLinks.classList.remove('show');
+            });
+        });
+
+        // 年份过滤功能（仅2026年，无需过滤，但保留逻辑便于以后扩展）
+        const logEntries = document.querySelectorAll('.log-entry');
+        const yearLinks = document.querySelectorAll('.archive-list a');
+        function filterByYear(year) {
+            logEntries.forEach(entry => {
+                const dateText = entry.querySelector('.log-date').innerText;
+                const entryYear = dateText.split('.')[0];
+                if (year === 'all' || entryYear === year) {
+                    entry.style.display = 'block';
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+        }
+        yearLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const year = link.getAttribute('data-year');
+                filterByYear(year);
+            });
+        });
+        filterByYear('all');
+
+        // 页面切换淡出动画（点击返回首页或导航链接时）
+        const allInternalLinks = document.querySelectorAll('a[href^="index.html"], a[href^="#"], a[href^="news.html"]');
+        allInternalLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.style.animation = 'fadeIn 0.2s reverse';
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 200);
+                }
+            });
+        });
+
+        // 声明折叠函数
+        window.toggleLegalNotice = function() {
+            const notice = document.getElementById('legalNotice');
+            notice.style.display = notice.style.display === 'none' ? 'block' : 'none';
+        };
+    </script>
+</body>
+</html>

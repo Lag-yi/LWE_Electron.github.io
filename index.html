@@ -8,7 +8,6 @@
     <meta name="author" content="LWE_Electron">
     <title>LWE_Electron · 神途</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome 使用 BootCDN -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
     <style>
         html { scroll-behavior: smooth; }
@@ -16,19 +15,17 @@
     <link rel="icon" type="image/png" href="/images/icon.png">
 </head>
 <body>
-    <!-- 主题切换按钮 -->
     <button class="theme-toggle" id="themeToggle" aria-label="切换深色/浅色模式">
         <i class="fas fa-moon"></i>
     </button>
 
     <nav class="navbar">
         <div class="container">
-            <!-- Logo 同时作为首页链接和手机菜单触发按钮 -->
             <a href="index.html" class="logo" id="mobileMenuTrigger">⚡ LWE_Electron</a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="active">首页</a></li>
                 <li><a href="#mod">我们在做什么</a></li>
-                <li><a href="#updates">最新动态</a></li>
+                <li><a href="news.html">开发日志</a></li>
                 <li><a href="#code">代码片段</a></li>
                 <li><a href="#credits">我们是谁</a></li>
             </ul>
@@ -79,6 +76,10 @@
             <h2 class="section-title">📝 最新动态</h2>
             <div class="updates-grid">
                 <div class="update-card">
+                    <div class="update-date">2026.04.04</div>
+                    <p class="update-desc">添加了圣化盐和水晶瓶及其配方。（这天是Starry_Electron的生日，让我们说：“生日快乐！”）</p>
+                </div>
+                <div class="update-card">
                     <div class="update-date">2026.03.08</div>
                     <p class="update-desc">学会了自定义盔甲材料，正在画海魂盔甲的纹理！</p>
                 </div>
@@ -86,10 +87,11 @@
                     <div class="update-date">2026.03.01</div>
                     <p class="update-desc">战神徽章效果完成：死亡触发13种增益+隐身。</p>
                 </div>
-                <div class="update-card">
-                    <div class="update-date">2026.02.20</div>
-                    <p class="update-desc">成功搭建 Fabric 1.21.1 开发环境，注册了第一个物品。</p>
-                </div>
+            </div>
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="news.html" class="btn btn-primary" style="background: var(--accent); color: white; padding: 0.5rem 1.5rem; border-radius: 40px;">
+                    <i class="fas fa-book-open"></i> 查看完整日志
+                </a>
             </div>
         </div>
     </section>
@@ -157,22 +159,20 @@
         </div>
     </section>
 
-    <!-- 关于我们（已更新） -->
+    <!-- 关于我们 -->
     <section id="credits" class="credits-section">
         <div class="container">
             <h2 class="section-title">👤 关于我们</h2>
             <div class="credits-grid">
-                <!-- Starry_Electron 卡片 -->
                 <div class="credit-card">
                     <i class="fas fa-user-graduate fa-2x" style="color: #5a67d8;"></i>
                     <h4>Starry_Electron</h4>
                     <p class="credit-role">写代码的那个➕少量策划美术</p>
                     <span class="credit-desc">七年级，负责 Java、Git、被 bug 折磨、喜欢做神学类物品。</span>
                     <span class="credit-desc">负责部分美术（纹理、图标）</span>
-                    <span class="credit-desc"><p>对了，这个网站就是她做的</p></span>
+                    <span class="credit-desc">对了，这个网站就是她做的</span>
                 </div>
 
-                <!-- LWE_awa 卡片 -->
                 <div class="credit-card">
                     <i class="fas fa-paint-brush fa-2x" style="color: #5a67d8;"></i>
                     <h4>LWE_awa</h4>
@@ -180,7 +180,6 @@
                     <span class="credit-desc">七年级，负责画纹理、想配方和各种物品、爱好未知</span>
                 </div>
 
-                <!-- 新增 Z-A_Key 卡片 -->
                 <div class="credit-card">
                     <i class="fas fa-lightbulb fa-2x" style="color: #5a67d8;"></i>
                     <h4>Z-A_Key</h4>
@@ -188,7 +187,6 @@
                     <span class="credit-desc">点子很多，就是不为程序员和美术着想……</span>
                 </div>
 
-                <!-- 特别感谢卡片 -->
                 <div class="credit-card">
                     <i class="fas fa-book-open fa-2x" style="color: #5a67d8;"></i>
                     <h4>特别感谢</h4>
@@ -211,8 +209,9 @@
                 <a href="https://github.com/Lag-yi" target="_blank">
                     <i class="fab fa-github"></i> 我们的 GitHub
                 </a>
+                &nbsp;|&nbsp;
+                <a href="news.html">开发日志</a>
             </p>
-            <!-- 折叠声明区域 -->
             <div class="legal-footer">
                 <button class="legal-toggle" onclick="toggleLegalNotice()">
                     <i class="fas fa-balance-scale"></i> 网站声明
@@ -251,7 +250,7 @@
             }
         });
 
-        // 手机菜单触发器：点击 Logo（仅限手机视图）
+        // 手机菜单触发器
         const logo = document.querySelector('.logo');
         const navLinks = document.getElementById('navLinks');
 
@@ -264,7 +263,6 @@
             });
         }
 
-        // 点击导航链接后自动关闭菜单（手机）
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 700) {
@@ -290,10 +288,10 @@
         });
 
         // 声明折叠
-        function toggleLegalNotice() {
+        window.toggleLegalNotice = function() {
             var notice = document.getElementById('legalNotice');
             notice.style.display = notice.style.display === 'none' ? 'block' : 'none';
-        }
+        };
     </script>
 </body>
 </html>

@@ -36,7 +36,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    /* 去除移动端点击高亮 */
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -48,7 +47,6 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* 基础点击效果 */
 button, a, .btn, .nav-links a, .legal-toggle, .tag, .update-card, .credit-card {
     -webkit-tap-highlight-color: transparent;
     transition: transform 0.1s ease, background-color 0.1s ease;
@@ -93,7 +91,6 @@ button:active, a:active, .btn:active, .nav-links a:active, .legal-toggle:active,
     letter-spacing: -0.3px;
 }
 
-/* 桌面导航链接 */
 .nav-links {
     display: flex;
     list-style: none;
@@ -415,21 +412,18 @@ button:active, a:active, .btn:active, .nav-links a:active, .legal-toggle:active,
     border-color: #e2e8f0;
 }
 
-/* 新增：浅色主题下标签（如 #1.21.1）优化 */
 .light-theme .tag {
-    background: #e9ecef;       /* 浅灰背景 */
-    color: #1a202c;            /* 深色文字 */
+    background: #e9ecef;
+    color: #1a202c;
     border-color: #ced4da;
 }
 
-/* 新增：浅色主题下动态卡片日期标签优化 */
 .light-theme .update-date {
     background: #e9ecef;
     color: #2c3e50;
     border-color: #ced4da;
 }
 
-/* 浅色主题下卡片悬浮阴影微调 */
 .light-theme .credit-card:hover {
     box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.2);
 }
@@ -547,7 +541,6 @@ footer i {
         font-size: 2.5rem;
     }
 
-    /* 调整主题按钮位置，确保它不被菜单遮挡 */
     .theme-toggle {
         top: 10px;
         right: 10px;
