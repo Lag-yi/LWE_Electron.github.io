@@ -48,8 +48,7 @@
             <div class="mod-card">
                 <div class="mod-info">
                     <h3>神途 (Day of Godslayer)</h3>
-                    <p>名字听起来很厉害，但其实我们还在一点点摸索。</p>
-                    <p style="margin-top: 1.5rem;"><strong>已经学会的：</strong></p>
+                    <p style="margin-top: 1.5rem;"><strong>我们做到了什么？</strong></p>
                     <ul>
                         <li>在 Minecraft 1.21.1 里加了属于自己的物品</li>
                         <li>给它们写了合成配方</li>
@@ -57,7 +56,6 @@
                         <li>把代码传到了 GitHub 上备份</li>
                         <li>搭了这个网站</li>
                     </ul>
-                    <p style="margin-top: 1.5rem;"><strong>正在学的：</strong> 给剑加一个特殊效果（比如拿在副手时给个 BUFF）</p>
                     <p><strong>还不会的：</strong> 很多东西……</p>
                     <div class="mod-tags">
                         <span class="tag">#1.21.1</span>
@@ -76,16 +74,16 @@
             <h2 class="section-title">📝 最新动态</h2>
             <div class="updates-grid">
                 <div class="update-card">
+                    <div class="update-date">2026.04.12</div>
+                    <p class="update-desc">更换了映射，优化了注册物品的代码结构，现在我们有2个负责注册的文件了！</p>
+                </div>
+                <div class="update-card">
                     <div class="update-date">2026.04.04</div>
                     <p class="update-desc">添加了圣化盐和水晶瓶及其配方。（这天是Starry_Electron的生日，让我们说：“生日快乐！”）</p>
                 </div>
                 <div class="update-card">
                     <div class="update-date">2026.03.08</div>
-                    <p class="update-desc">学会了自定义盔甲材料，正在画海魂盔甲的纹理！</p>
-                </div>
-                <div class="update-card">
-                    <div class="update-date">2026.03.01</div>
-                    <p class="update-desc">战神徽章效果完成：死亡触发13种增益+隐身。</p>
+                    <p class="update-desc">学会自定义物品</p>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 1rem;">
@@ -101,7 +99,7 @@
         <div class="container">
             <h2 class="section-title">🧩 代码片段</h2>
             <div class="code-card">
-                <p class="code-title">第一个较大型物品：战神徽章 触发代码</p>
+                <p class="code-title">第一个较大型物品（其实就是触发一堆状态）：战神徽章 触发代码</p>
                 <pre><code>public static void register() {
         ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
             // 只在服务端且是玩家
@@ -136,7 +134,7 @@
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, duration, 1));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, duration, 1));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 1200, 1)); // 1分钟隐身
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 1200, 1)); 
 
                 // 播放音效
                 player.getWorld().playSound(null, player.getBlockPos(),
@@ -166,7 +164,7 @@
             <div class="credits-grid">
                 <div class="credit-card">
                     <i class="fas fa-user-graduate fa-2x" style="color: #5a67d8;"></i>
-                    <h4>Starry_Electron</h4>
+                    <h4>Starry_Electricity</h4>
                     <p class="credit-role">写代码的那个➕少量策划美术</p>
                     <span class="credit-desc">七年级，负责 Java、Git、被 bug 折磨、喜欢做神学类物品。</span>
                     <span class="credit-desc">负责部分美术（纹理、图标）</span>

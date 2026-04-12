@@ -8,16 +8,9 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 页面淡入动画 */
-        body {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        body { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* 日志页面专用样式 - 与首页 update-card 保持一致 */
         .news-header {
             background: var(--bg-secondary);
             padding: 3rem 0 2rem;
@@ -25,10 +18,7 @@
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 2rem;
         }
-        .news-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
+        .news-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
         .news-container {
             max-width: 1100px;
             margin: 0 auto;
@@ -46,37 +36,76 @@
             top: 90px;
             height: fit-content;
         }
-        .archive-sidebar h3 {
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-        .archive-list {
-            list-style: none;
-        }
-        .archive-list li {
+        .archive-sidebar h3 { margin-bottom: 1rem; font-size: 1.2rem; }
+        .archive-list { list-style: none; padding-left: 0; }
+        .archive-year {
+            margin-top: 0.5rem;
             margin-bottom: 0.5rem;
         }
-        .archive-list a {
+        .year-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: default;
+            user-select: none;
+        }
+        .year-toggle i {
+            font-size: 1rem;          /* 小三角稍微调小 */
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            color: var(--text-secondary);
+        }
+        .year-text {
+            font-weight: 600;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-block;
+            transition: transform 0.1s ease, color 0.2s ease;
+        }
+        /* 年份悬浮：放大 + 颜色变亮（无下划线） */
+        .year-text:hover {
+            transform: scale(1.05);
+            color: var(--accent-hover);
+        }
+        .year-text:active {
+            transform: scale(0.95);
+        }
+        .month-list {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-top: 0.3rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .month-list.collapsed {
+            display: none;
+        }
+        .month-list li {
+            margin-bottom: 0.3rem;
+        }
+        .month-list a {
             color: var(--text-secondary);
             text-decoration: none;
-            display: block;
-            padding: 0.3rem 0;
-            transition: color 0.2s;
+            font-size: 0.9rem;
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            transition: transform 0.1s ease, color 0.2s ease, background-color 0.2s;
+            border-radius: 6px;
         }
-        .archive-list a:hover {
+        .month-list a:hover {
             color: var(--accent);
+            transform: translateX(4px);
+            background-color: rgba(124, 58, 237, 0.1);
+        }
+        .month-list a:active {
+            transform: scale(0.96);
         }
 
-        /* 日志条目样式 = 首页 .update-card 样式 */
-        .log-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
+        .log-list { display: flex; flex-direction: column; gap: 2rem; }
         .log-entry {
             background: var(--bg-card);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
             border-radius: 20px;
             padding: 1.5rem;
             box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
@@ -96,32 +125,20 @@
             padding: 0.2rem 1rem;
             border-radius: 30px;
         }
-        .log-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin: 0.5rem 0 1rem;
-            color: var(--text-primary);
-        }
-        .log-content {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-        .log-content ul, .log-content p {
-            margin-bottom: 0.8rem;
-        }
+        .log-title { font-size: 1.4rem; font-weight: 600; margin: 0.5rem 0 1rem; color: var(--text-primary); }
+        .log-content { color: var(--text-secondary); line-height: 1.7; }
+        .log-content p { margin-bottom: 0.8rem; }
 
-        /* 浅色主题下日志条目标签颜色优化 */
         .light-theme .log-date {
             background: #e9ecef;
             color: #2c3e50;
             border-color: #ced4da;
         }
-        .light-theme .log-entry {
-            background: #ffffff;
-            border-color: #e2e8f0;
+        .light-theme .log-entry { background: #ffffff; border-color: #e2e8f0; }
+        .light-theme .month-list a:hover {
+            background-color: rgba(90, 103, 216, 0.1);
         }
 
-        /* 返回首页按钮 - 美化 */
         .back-home {
             margin-top: 2rem;
             text-align: center;
@@ -133,25 +150,19 @@
             border-radius: 40px;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.2s;
             background: var(--accent);
             color: white;
             box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+            transition: all 0.2s;
         }
         .back-home .btn:hover {
             background: var(--accent-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(124, 58, 237, 0.4);
         }
 
         @media (max-width: 700px) {
-            .news-container {
-                grid-template-columns: 1fr;
-            }
-            .archive-sidebar {
-                position: static;
-                margin-bottom: 1rem;
-            }
+            .news-container { grid-template-columns: 1fr; }
+            .archive-sidebar { position: static; margin-bottom: 1rem; }
         }
     </style>
     <link rel="icon" type="image/png" href="/images/icon.png">
@@ -184,18 +195,36 @@
     <div class="news-container">
         <aside class="archive-sidebar">
             <h3><i class="fas fa-archive"></i> 归档</h3>
-            <ul class="archive-list">
-                <li><a href="#" data-year="2026">2026年</a></li>
-                <!-- 2025 年已移除 -->
-            </ul>
+            <div class="archive-list">
+                <!-- 2026年 -->
+                <div class="archive-year" data-year="2026">
+                    <div class="year-toggle">
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="year-text">2026年</span>
+                    </div>
+                    <ul class="month-list" data-year="2026">
+                        <li><a href="#" data-year="2026" data-month="4">4月</a></li>
+                        <li><a href="#" data-year="2026" data-month="3">3月</a></li>
+                        <li><a href="#" data-year="2026" data-month="2">2月</a></li>
+                        <li><a href="#" data-year="2026" data-month="1">1月</a></li>
+                    </ul>
+                </div>
+            </div>
         </aside>
 
         <main class="log-list" id="logList">
             <div class="log-entry">
-                <div class="log-date">2026.04.04</div>
-                <div class="log-title">🎉 圣化盐与水晶瓶 · 生日特别更新</div>
+                <div class="log-date">2026.04.12</div>
+                <div class="log-title">🤓 更换映射与代码结构优化</div>
                 <div class="log-content">
-                    <p>添加了「圣化盐」和「水晶瓶」及其合成配方。这天是 Starry_Electron 的生日，祝生日快乐！🎂</p>
+                    <p>更换了映射，并且优化了注册物品的代码结构，现在我们有2个负责注册的文件了！另外，新建了一个盔甲材料的文件（蒸蚌！）</p>
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026.04.04</div>
+                <div class="log-title">😇 圣化盐与水晶瓶</div>
+                <div class="log-content">
+                    <p>添加了「圣化盐」和「水晶瓶」及其合成配方。这天是 Starry_Electricity 的生日，祝生日快乐！🎂</p>
                     <p>圣化盐可通过下界石英 + 荧石粉合成，用于后续进阶合成。水晶瓶用于存储圣水（计划中）。</p>
                 </div>
             </div>
@@ -218,8 +247,17 @@
                 <div class="log-date">2026.02.25</div>
                 <div class="log-title">🏗️ 模组基础框架搭建</div>
                 <div class="log-content">
-                    <p>创建 Fabric 1.21.1 项目，注册了第一个自定义物品「海魂锭」，编写了有序合成配方。</p>
+                    <p>创建 Fabric 1.21.1 项目，注册了第一个正式自定义物品「海魂锭」，编写了有序合成配方。</p>
                     <p>搭建了 GitHub 仓库和 GitHub Pages 官网，实现深浅主题切换和手机响应式菜单。</p>
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026.01.15</div>
+                <div class="log-title">🤔 模组最初期准备（26.1.15及之前）</div>
+                <div class="log-content">
+                    <p>将“弑神之日”更名为“神途”。</p>
+                    <p>进行网站更迭，旧网站 <a href="https://lwe-electron.rth1.xyz/">lwe-electron.rth1.xyz</a>可以去看看，有点简陋，而且不再维护，也许会突然404哦</p>
+                    <p>创建 Fabric 1.21.1 项目，注册了第一个自定义物品「我的第一个物品」和「Demo」它们作为彩蛋出现，没什么用，一个煤炭（？）和一把剑，可以尝试获得它们哦</p>
                 </div>
             </div>
         </main>
@@ -268,7 +306,7 @@
             }
         });
 
-        // 手机菜单逻辑
+        // 手机菜单
         const logo = document.querySelector('.logo');
         const navLinks = document.getElementById('navLinks');
         if (logo) {
@@ -285,30 +323,83 @@
             });
         });
 
-        // 年份过滤功能（仅2026年，无需过滤，但保留逻辑便于以后扩展）
-        const logEntries = document.querySelectorAll('.log-entry');
-        const yearLinks = document.querySelectorAll('.archive-list a');
+        // 1. 年份文字点击 -> 查看该年份所有日志
+        const yearTexts = document.querySelectorAll('.year-text');
         function filterByYear(year) {
+            const logEntries = document.querySelectorAll('.log-entry');
             logEntries.forEach(entry => {
                 const dateText = entry.querySelector('.log-date').innerText;
-                const entryYear = dateText.split('.')[0];
-                if (year === 'all' || entryYear === year) {
-                    entry.style.display = 'block';
+                const match = dateText.match(/^(\d{4})\.(\d{2})\.\d{2}/);
+                if (match) {
+                    const entryYear = match[1];
+                    if (entryYear === year) {
+                        entry.style.display = 'block';
+                    } else {
+                        entry.style.display = 'none';
+                    }
                 } else {
-                    entry.style.display = 'none';
+                    entry.style.display = 'block';
                 }
             });
         }
-        yearLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const year = link.getAttribute('data-year');
+        yearTexts.forEach(yearSpan => {
+            const yearDiv = yearSpan.closest('.archive-year');
+            const year = yearDiv.getAttribute('data-year');
+            yearSpan.addEventListener('click', (e) => {
+                e.stopPropagation();
                 filterByYear(year);
             });
         });
-        filterByYear('all');
 
-        // 页面切换淡出动画（点击返回首页或导航链接时）
+        // 2. 小三角点击 -> 折叠/展开月份列表
+        const chevrons = document.querySelectorAll('.year-toggle i');
+        chevrons.forEach(chevron => {
+            const yearDiv = chevron.closest('.archive-year');
+            const monthList = yearDiv.querySelector('.month-list');
+            chevron.addEventListener('click', (e) => {
+                e.stopPropagation();
+                monthList.classList.toggle('collapsed');
+                if (monthList.classList.contains('collapsed')) {
+                    chevron.style.transform = 'rotate(0deg)';
+                } else {
+                    chevron.style.transform = 'rotate(90deg)';
+                }
+            });
+            if (!monthList.classList.contains('collapsed')) {
+                chevron.style.transform = 'rotate(90deg)';
+            }
+        });
+
+        // 3. 月份链接点击 -> 过滤该月份日志
+        const monthLinks = document.querySelectorAll('.month-list a');
+        function filterByMonth(year, month) {
+            const logEntries = document.querySelectorAll('.log-entry');
+            logEntries.forEach(entry => {
+                const dateText = entry.querySelector('.log-date').innerText;
+                const match = dateText.match(/^(\d{4})\.(\d{2})\.\d{2}/);
+                if (match) {
+                    const entryYear = match[1];
+                    const entryMonth = parseInt(match[2], 10);
+                    if (entryYear === year && entryMonth === month) {
+                        entry.style.display = 'block';
+                    } else {
+                        entry.style.display = 'none';
+                    }
+                } else {
+                    entry.style.display = 'block';
+                }
+            });
+        }
+        monthLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const year = link.getAttribute('data-year');
+                const month = parseInt(link.getAttribute('data-month'), 10);
+                filterByMonth(year, month);
+            });
+        });
+
+        // 页面切换淡出动画
         const allInternalLinks = document.querySelectorAll('a[href^="index.html"], a[href^="#"], a[href^="news.html"]');
         allInternalLinks.forEach(link => {
             link.addEventListener('click', function(e) {
@@ -323,7 +414,6 @@
             });
         });
 
-        // 声明折叠函数
         window.toggleLegalNotice = function() {
             const notice = document.getElementById('legalNotice');
             notice.style.display = notice.style.display === 'none' ? 'block' : 'none';
