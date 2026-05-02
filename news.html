@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="「神途」模组开发日志 – LWE_Electron">
-    <title>开发日志 · 神途 · LWE_Electron</title>
+    <meta name="description" content="「长旅行纪」模组开发日志 – LWE_Electron">
+    <title>开发日志 · 长旅行纪 · LWE_Electron</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -50,7 +50,7 @@
             user-select: none;
         }
         .year-toggle i {
-            font-size: 1rem;          /* 小三角稍微调小 */
+            font-size: 1rem;
             cursor: pointer;
             transition: transform 0.2s ease;
             color: var(--text-secondary);
@@ -63,7 +63,6 @@
             display: inline-block;
             transition: transform 0.1s ease, color 0.2s ease;
         }
-        /* 年份悬浮：放大 + 颜色变亮（无下划线） */
         .year-text:hover {
             transform: scale(1.05);
             color: var(--accent-hover);
@@ -188,7 +187,7 @@
     <div class="news-header">
         <div class="container">
             <h1>📝 开发日志</h1>
-            <p>记录「神途」模组从零到一的每一步</p>
+            <p>记录「长旅行纪」模组从零到一的每一步</p>
         </div>
     </div>
 
@@ -196,13 +195,13 @@
         <aside class="archive-sidebar">
             <h3><i class="fas fa-archive"></i> 归档</h3>
             <div class="archive-list">
-                <!-- 2026年 -->
                 <div class="archive-year" data-year="2026">
                     <div class="year-toggle">
                         <i class="fas fa-chevron-right"></i>
                         <span class="year-text">2026年</span>
                     </div>
                     <ul class="month-list" data-year="2026">
+                        <li><a href="#" data-year="2026" data-month="5">5月</a></li>
                         <li><a href="#" data-year="2026" data-month="4">4月</a></li>
                         <li><a href="#" data-year="2026" data-month="3">3月</a></li>
                         <li><a href="#" data-year="2026" data-month="2">2月</a></li>
@@ -214,11 +213,19 @@
 
         <main class="log-list" id="logList">
             <div class="log-entry">
+                <div class="log-date">2026.05.02</div>
+                <div class="log-title">🚀 模组重构与更名：长旅行纪</div>
+                <div class="log-content">
+                    <p>将原「神途」模组完全重构，更名为「长旅行纪」。代码结构优化，统一注册方式，包名改为 io.github.lag_yi.long_travel_chronicle，模组ID更新为 longtravelchronicle。</p>
+                    <p>项目配置切换到 Mojang 官方映射，修复了多个构建问题，现已可正常编译运行。</p>
+                </div>
+            </div>
+            <div class="log-entry">
                 <div class="log-date">2026.04.12</div>
                 <div class="log-title">🤓 更换映射与代码结构优化</div>
                 <div class="log-content">
                     <p>更换了映射，并且优化了注册物品的代码结构，现在我们有2个负责注册的文件了！另外，新建了一个盔甲材料的文件（蒸蚌！）</p>
-                    <p>突然想起旧网址太烂了，没什么意义，于是最后一次更新了一些东西<a href="https://lwe-electron.rth1.xyz/" target="_blank">lwe-electron.rth1.xyz</a>，有兴趣可以去看看，但不再维护了，也许会突然404哦</p>
+                    <p>旧网站 <a href="https://lwe-electron.rth1.xyz/" target="_blank">lwe-electron.rth1.xyz</a> 不再维护，也许突然404。</p>
                 </div>
             </div>
             <div class="log-entry">
@@ -254,11 +261,11 @@
             </div>
             <div class="log-entry">
                 <div class="log-date">2026.01.15</div>
-                <div class="log-title">🤔 模组最初期准备（26.1.15及之前）</div>
+                <div class="log-title">🤔 模组最初期准备</div>
                 <div class="log-content">
                     <p>将“弑神之日”更名为“神途”。</p>
-                    <p>进行网站更迭，旧网站 <a href="https://lwe-electron.rth1.xyz/">lwe-electron.rth1.xyz</a>可以去看看，有点简陋，而且不再维护，也许会突然404哦</p>
-                    <p>创建 Fabric 1.21.1 项目，注册了第一个自定义物品「我的第一个物品」和「Demo」它们作为彩蛋出现，没什么用，一个煤炭（？）和一把剑，可以尝试获得它们哦</p>
+                    <p>旧网站 <a href="https://lwe-electron.rth1.xyz/">lwe-electron.rth1.xyz</a> 可考古，但不再维护。</p>
+                    <p>创建 Fabric 1.21.1 项目，注册了第一个自定义物品「我的第一个物品」和彩蛋「Demo」。</p>
                 </div>
             </div>
         </main>
@@ -324,7 +331,7 @@
             });
         });
 
-        // 1. 年份文字点击 -> 查看该年份所有日志
+        // 年份文字点击
         const yearTexts = document.querySelectorAll('.year-text');
         function filterByYear(year) {
             const logEntries = document.querySelectorAll('.log-entry');
@@ -352,7 +359,7 @@
             });
         });
 
-        // 2. 小三角点击 -> 折叠/展开月份列表
+        // 小三角折叠
         const chevrons = document.querySelectorAll('.year-toggle i');
         chevrons.forEach(chevron => {
             const yearDiv = chevron.closest('.archive-year');
@@ -371,7 +378,7 @@
             }
         });
 
-        // 3. 月份链接点击 -> 过滤该月份日志
+        // 月份过滤
         const monthLinks = document.querySelectorAll('.month-list a');
         function filterByMonth(year, month) {
             const logEntries = document.querySelectorAll('.log-entry');
@@ -400,7 +407,7 @@
             });
         });
 
-        // 页面切换淡出动画
+        // 页面切换淡出
         const allInternalLinks = document.querySelectorAll('a[href^="index.html"], a[href^="#"], a[href^="news.html"]');
         allInternalLinks.forEach(link => {
             link.addEventListener('click', function(e) {

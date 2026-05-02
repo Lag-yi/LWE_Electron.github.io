@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="LWE_Electron 的 Minecraft 模组「神途」官方网站，两个初中生的 Fabric 模组学习项目。">
-    <meta name="keywords" content="Minecraft, 模组, Fabric, 神途, 初中生, 学习项目">
+    <meta name="description" content="LWE_Electron 的 Minecraft 模组「长旅行纪」官方网站，初中生 Fabric 模组学习项目。">
+    <meta name="keywords" content="Minecraft, 模组, Fabric, 长旅行纪, 初中生, 学习项目">
     <meta name="author" content="LWE_Electron">
-    <title>LWE_Electron · 神途</title>
+    <title>LWE_Electron · 长旅行纪</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
     <style>
@@ -47,19 +47,21 @@
             <h2 class="section-title">🔨 当前进度</h2>
             <div class="mod-card">
                 <div class="mod-info">
-                    <h3>神途 (Day of Godslayer)</h3>
-                    <p style="margin-top: 1.5rem;"><strong>我们做到了什么？</strong></p>
+                    <h3>长旅行纪 (Long Travel Chronicle)</h3>
+                    <p style="margin-top: 1.5rem;"><strong>已重构并更名，代码更清晰，功能更稳定。</strong></p>
                     <ul>
-                        <li>在 Minecraft 1.21.1 里加了属于自己的物品</li>
-                        <li>给它们写了合成配方</li>
-                        <li>做了一个自己的创造模式物品栏</li>
-                        <li>把代码传到了 GitHub 上备份</li>
-                        <li>搭了这个网站</li>
+                        <li>基于 Fabric 1.21.1，使用 Mojang 官方映射</li>
+                        <li>自定义物品：海魂锭、战神徽章、圣化盐、水晶瓶等</li>
+                        <li>自定义合成配方与创造模式物品栏</li>
+                        <li>战神徽章替死效果（13种增益 + 隐身）</li>
+                        <li>盔甲系统框架（海魂盔甲开发中）</li>
+                        <li>统一物品注册方式，代码结构优化</li>
                     </ul>
-                    <p><strong>还不会的：</strong> 很多东西……</p>
+                    <p><strong>正在学：</strong> 自定义盔甲完整实现、给物品添加特殊逻辑（右键火球等）</p>
+                    <p><strong>还不会的：</strong> 还有很多……但我们在前进！</p>
                     <div class="mod-tags">
                         <span class="tag">#1.21.1</span>
-                        <span class="tag">#学无止境</span>
+                        <span class="tag">#重构</span>
                         <span class="tag">#Fabric</span>
                         <span class="tag">#Java</span>
                     </div>
@@ -74,16 +76,16 @@
             <h2 class="section-title">📝 最新动态</h2>
             <div class="updates-grid">
                 <div class="update-card">
+                    <div class="update-date">2026.05.02</div>
+                    <p class="update-desc">模组正式更名为「长旅行纪」，代码全面重构，项目结构优化。</p>
+                </div>
+                <div class="update-card">
                     <div class="update-date">2026.04.12</div>
-                    <p class="update-desc">更换了映射，优化了注册物品的代码结构，现在我们有2个负责注册的文件了！</p>
+                    <p class="update-desc">更换为 Mojang 官方映射，统一物品注册方式，代码可读性提升。</p>
                 </div>
                 <div class="update-card">
                     <div class="update-date">2026.04.04</div>
-                    <p class="update-desc">添加了圣化盐和水晶瓶及其配方。（这天是Starry_Electron的生日，让我们说：“生日快乐！”）</p>
-                </div>
-                <div class="update-card">
-                    <div class="update-date">2026.03.08</div>
-                    <p class="update-desc">学会自定义物品</p>
+                    <p class="update-desc">添加圣化盐和水晶瓶及其配方。</p>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 1rem;">
@@ -99,59 +101,33 @@
         <div class="container">
             <h2 class="section-title">🧩 代码片段</h2>
             <div class="code-card">
-                <p class="code-title">第一个较大型物品（其实就是触发一堆状态）：战神徽章 触发代码</p>
+                <p class="code-title">战神徽章效果（替死 + 13种增益）</p>
                 <pre><code>public static void register() {
-        ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
-            // 只在服务端且是玩家
-            if (entity.getWorld().isClient || !(entity instanceof PlayerEntity player)) {
-                return true;
-            }
-
-            // 检查主手或副手是否有战神徽章
-            ItemStack mainHand = player.getMainHandStack();
-            ItemStack offHand = player.getOffHandStack();
-            boolean hasEmblem = mainHand.isOf(ModItems.WARGOD_EMBLEM) ||
-                                offHand.isOf(ModItems.WARGOD_EMBLEM);
-
-            if (hasEmblem) {
-                // 恢复生命值
-                player.setHealth(1.0F);
-                // 清除所有负面效果
-                player.clearStatusEffects();
-
-                int duration = 800; // 40秒
-                // 添加所有增益效果
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, duration, 1));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 1200, 1)); 
-
-                // 播放音效
-                player.getWorld().playSound(null, player.getBlockPos(),
-                        SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-
-                // 消耗徽章
-                if (mainHand.isOf(ModItems.WARGOD_EMBLEM)) {
-                    mainHand.decrement(1);
-                } else {
-                    offHand.decrement(1);
-                }
-
-                return false; // 阻止死亡
-            }
+    ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
+        if (entity.level().isClientSide || !(entity instanceof Player player)) {
             return true;
-        });
-    }</code></pre>
+        }
+        ItemStack mainHand = player.getMainHandItem();
+        ItemStack offHand = player.getOffhandItem();
+        boolean hasEmblem = mainHand.is(ModItems.WARGOD_EMBLEM) ||
+                            offHand.is(ModItems.WARGOD_EMBLEM);
+        if (hasEmblem) {
+            player.setHealth(1.0F);
+            player.removeAllEffects();
+            int duration = 800;
+            // 添加13种增益效果（省略具体代码）
+            player.level().playSound(null, player.blockPosition(),
+                    SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
+            if (mainHand.is(ModItems.WARGOD_EMBLEM)) {
+                mainHand.shrink(1);
+            } else {
+                offHand.shrink(1);
+            }
+            return false;
+        }
+        return true;
+    });
+}</code></pre>
                 <p class="code-note">欢迎指错提建议！</p>
             </div>
         </div>
@@ -165,17 +141,17 @@
                 <div class="credit-card">
                     <i class="fas fa-user-graduate fa-2x" style="color: #5a67d8;"></i>
                     <h4>Starry_Electricity</h4>
-                    <p class="credit-role">写代码的那个➕少量策划美术</p>
-                    <span class="credit-desc">七年级，负责 Java、Git、被 bug 折磨、喜欢做神学类物品。</span>
+                    <p class="credit-role">写代码 + 少量策划/美术</p>
+                    <span class="credit-desc">七年级，负责 Java、Git、被 bug 折磨、喜欢神学类物品。</span>
                     <span class="credit-desc">负责部分美术（纹理、图标）</span>
-                    <span class="credit-desc">对了，这个网站就是她做的</span>
+                    <span class="credit-desc">这个网站就是她做的</span>
                 </div>
 
                 <div class="credit-card">
                     <i class="fas fa-paint-brush fa-2x" style="color: #5a67d8;"></i>
                     <h4>LWE_awa</h4>
-                    <p class="credit-role">画图 + 想点子的</p>
-                    <span class="credit-desc">七年级，负责画纹理、想配方和各种物品、爱好未知</span>
+                    <p class="credit-role">画图 + 想点子</p>
+                    <span class="credit-desc">七年级，负责画纹理、想配方和各种物品</span>
                 </div>
 
                 <div class="credit-card">
